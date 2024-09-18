@@ -1,5 +1,6 @@
+/* eslint-disable no-catch-shadow */
 /* eslint-disable react-native/no-inline-styles */
-import {FlatList, Image, ImageBackground, Text, View} from 'react-native';
+import {ActivityIndicator, Dimensions, FlatList, Image, ImageBackground, Text, View} from 'react-native';
 import styles from '../styles/OrganizingCommitte.style';
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -20,6 +21,11 @@ const OrganizingCommitte: React.FC<ececutiveCouncilScreenProps> = ({
   navigation,
 }) => {
   const [organizing, setOrganizing] = useState<Organizing[]>([]);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+
+
+
 
   useEffect(() => {
     const fetchOrganizingCommitte = async () => {
@@ -28,10 +34,27 @@ const OrganizingCommitte: React.FC<ececutiveCouncilScreenProps> = ({
           'https://rsp40.com/api/organizing-members/list',
         );
         setOrganizing(response.data.organizing_members);
-      } catch (error) {}
+      } catch (error) {
+        setError('Failed to fetch data');
+      } finally {
+        setLoading(false);
+      }
     };
     fetchOrganizingCommitte();
   }, []);
+
+
+  if (loading) {
+    return <View style={{height:Dimensions.get('window').height,width:Dimensions.get('window').width, backgroundColor:'#000',flex:1,justifyContent:'center',alignItems:'center'}}><ActivityIndicator size="large" color="#fff" /></View>;
+  }
+
+  if (error) {
+    return (
+      <View>
+        <Text>{error}</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>

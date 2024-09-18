@@ -3,6 +3,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {
   ActivityIndicator,
+  Dimensions,
   FlatList,
   Image,
   ImageBackground,
@@ -51,7 +52,7 @@ const ExecutiveCouncil: React.FC<ececutiveCouncilScreenProps> = ({
   }, []);
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return <View style={{height:Dimensions.get('window').height,width:Dimensions.get('window').width, backgroundColor:'#000',flex:1,justifyContent:'center',alignItems:'center'}}><ActivityIndicator size="large" color="#fff" /></View>;
   }
 
   if (error) {

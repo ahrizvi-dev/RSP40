@@ -24,10 +24,7 @@ const styles = StyleSheet.create({
   backImage: {
     aspectRatio: 3,
   },
-  contentContainer: {
-    marginVertical: 20,
-    paddingHorizontal: 10,
-  },
+
   tableContainer: {
     paddingHorizontal: 10,
   },

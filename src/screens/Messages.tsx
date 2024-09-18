@@ -1,7 +1,8 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-return-assign */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable no-catch-shadow */
-import {FlatList, ImageBackground, Text, View} from 'react-native';
+import {Dimensions, FlatList, ImageBackground, Text, View} from 'react-native';
 import styles from '../styles/Message.style';
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -30,7 +31,7 @@ const Messages: React.FC<messageScreenProps> = ({navigation}) => {
     const fetchMessage = async () => {
       try {
         const response = await axios.get('https://rsp40.com/api/messages/list');
-        console.log(response.data,'hello world');
+        // console.log(response.data,'hello world');
         setMessage(response.data.messages);
       } catch (error) {
         setError('Failed to fetch data');
@@ -42,7 +43,7 @@ const Messages: React.FC<messageScreenProps> = ({navigation}) => {
   }, []);
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return <View style={{height:Dimensions.get('window').height,width:Dimensions.get('window').width, backgroundColor:'#000',flex:1,justifyContent:'center',alignItems:'center'}}><ActivityIndicator size="large" color="#fff" /></View>;
   }
 
   if (error) {
