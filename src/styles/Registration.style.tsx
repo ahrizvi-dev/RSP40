@@ -1,8 +1,9 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#000',
+    // maxHeight:Dimensions.get('window').height,
   },
   backBtnContainer: {
     position: 'absolute',

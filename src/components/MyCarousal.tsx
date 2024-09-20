@@ -1,90 +1,68 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Dimensions, StyleSheet, Image } from 'react-native';
-import Animated, {
-  useAnimatedScrollHandler,
-  useSharedValue,
-} from 'react-native-reanimated';
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/react-in-jsx-scope */
+import React, {useRef, useState, useEffect} from 'react';
+import {View, Image, FlatList, Dimensions} from 'react-native';
+import Abstract from '../assets/images/AbstractSubmission.png';
+import MainBanner from '../assets/images/MainBanner.png';
 
-const { width: screenWidth } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
-const data = [
+interface carousalTypes {
+  id: string;
+  image: any;
+}
+
+const data: carousalTypes[] = [
   {
     id: '1',
-    image: 'http://rsp.viewdemo.live/assets/images/banner/Registration.png',
+    image: Abstract,
   },
   {
     id: '2',
-    image:
-      'http://rsp.viewdemo.live/assets/images/banner/Abstract%20Submission.png',
+    image: MainBanner,
   },
-  {
-    id: '3',
-    image: 'http://rsp.viewdemo.live/assets/images/banner/Main%20Banner.png',
-  },
-  {
-    id: '4',
-    image:
-      'http://rsp.viewdemo.live/assets/images/banner/Sponsorship%20Tariff.png',
-  },
+  // Add more images if needed
 ];
 
 const MyCarousel: React.FC = () => {
-  const scrollX = useSharedValue(0);
-  const scrollViewRef = useRef<Animated.ScrollView>(null);
-
-  const scrollHandler = useAnimatedScrollHandler({
-    onScroll: (event) => {
-      scrollX.value = event.contentOffset.x;
-    },
-  });
+  const flatListRef = useRef<FlatList>(null); // Reference to control FlatList
+  const [currentIndex, setCurrentIndex] = useState(0); // Track current index
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (scrollViewRef.current) {
-        const nextOffset =
-          (scrollX.value + screenWidth) % (screenWidth * data.length);
-        scrollViewRef.current.scrollTo({
-          x: nextOffset,
-          animated: true,
-        });
-      }
-    }, 3000);
+      // Automatically scroll to the next item
+      setCurrentIndex(prevIndex => {
+        const nextIndex = prevIndex === data.length - 1 ? 0 : prevIndex + 1;
+        flatListRef.current?.scrollToIndex({ index: nextIndex, animated: true });
+        return nextIndex;
+      });
+    }, 3000); // Adjust the interval (3000ms = 3 seconds)
 
-    return () => clearInterval(interval);
-  }, [scrollX]);
+    return () => clearInterval(interval); // Clear interval on component unmount
+  }, []);
 
   return (
     <View>
-      <Animated.ScrollView
-        ref={scrollViewRef}
+      <FlatList
+        ref={flatListRef}
+        data={data}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => (
+          <Image
+            style={{width, height: 200, aspectRatio: 2.1}}
+            source={item.image}
+          />
+        )}
         horizontal
         pagingEnabled
-        onScroll={scrollHandler}
-        scrollEventThrottle={16}
         showsHorizontalScrollIndicator={false}
-      >
-        {data.map((item) => (
-          <View key={item.id} style={styles.slide}>
-            <Image style={styles.image} source={{ uri: item.image }} />
-          </View>
-        ))}
-      </Animated.ScrollView>
+        onScrollToIndexFailed={(info) => {
+          // If the index is out of bounds, fallback to scrolling to the start
+          flatListRef.current?.scrollToIndex({ index: info.index, animated: true });
+        }}
+      />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  slide: {
-    width: screenWidth,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f1f1f1',
-  },
-  image: {
-    width: 200,
-    height: 200,
-    aspectRatio: 2.1,
-  },
-});
 
 export default MyCarousel;
