@@ -28,6 +28,9 @@ const RegistrationNotes:React.FC<Props> = ({registrationNotes}) => {
             </View>
           </View>
         )}
+        ListFooterComponent={() => (
+            <Text style={{textAlign:'center',color:'#fff',marginVertical:10}}>– Workshops details will display coming soon –</Text>
+        )}
         ListHeaderComponent={() => (
           <Text
             style={{
