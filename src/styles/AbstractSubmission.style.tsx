@@ -24,5 +24,21 @@ const styles = StyleSheet.create({
   backImage: {
     aspectRatio: 3,
   },
+  inputContainer: {
+    gap: 10,
+    marginVertical: 20,
+    paddingHorizontal: 10,
+  },
+  input: {
+    borderWidth: 0.5,
+    borderStyle: 'solid',
+    borderColor: '#acacac',
+    paddingHorizontal: 10,
+    borderRadius: 10,
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 5,
+  },
 });
 export default styles;

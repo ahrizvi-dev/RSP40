@@ -15,7 +15,7 @@ type aboutScreenProps = NativeStackScreenProps<RootStackParamList>
 
 const About:React.FC<aboutScreenProps> = ({navigation}) => {
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View  style={styles.backBtnContainer}>
         <Icon onPress={() => navigation.goBack()} style={styles.backIcon} name="chevron-back" size={25} color={'#000'} />
       </View>
@@ -28,7 +28,7 @@ const About:React.FC<aboutScreenProps> = ({navigation}) => {
         />
         <Text style={styles.AboutRsp}>About RSP</Text>
       </View>
-      <View style={styles.contentContainer}>
+      <ScrollView style={[styles.contentContainer,{marginBottom:267}]}>
         <Text style={styles.heading}>About RSP</Text>
         <Text style={styles.paragraph}>
           The Radiological Society of Pakistan is the professional association
@@ -86,8 +86,12 @@ const About:React.FC<aboutScreenProps> = ({navigation}) => {
           8. Establish and maintain high medical and ethical standards in the
           practice of radiology.
         </Text>
-      </View>
-    </ScrollView>
+        <Text style={styles.paragraph}>
+          8. Establish and maintain high medical and ethical standards in the
+          practice of radiology.
+        </Text>
+      </ScrollView>
+    </View>
   );
 };
 

@@ -12,6 +12,7 @@ const RegistrationNotes:React.FC<Props> = ({registrationNotes}) => {
   return (
     <>
       <FlatList
+      nestedScrollEnabled
         data={registrationNotes}
         keyExtractor={item => item.id.toString()}
         renderItem={({item}) => (

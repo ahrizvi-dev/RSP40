@@ -79,7 +79,7 @@ const Registration: React.FC<registerScreenProps> = () => {
 
   const handleFileUpload = async (setFieldValue: any) => {
     try {
-      const res:any = await DocumentPicker.pick({
+      const res: any = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
       });
       setFileUri(res[0].uri); // Store the file URI
@@ -148,6 +148,7 @@ const Registration: React.FC<registerScreenProps> = () => {
   }
 
 
+
   return (
     <ScrollView style={styles.container}>
       {/* HEADER START  */}
@@ -176,7 +177,7 @@ const Registration: React.FC<registerScreenProps> = () => {
           file: null,
         }}
         validationSchema={validationSchema}
-        onSubmit={async (values, {resetForm}) => {
+        onSubmit={async (values, {resetForm, setFieldValue}) => {
           const data = convertToFormData(values);
           try {
             await axios.post('https://rsp40.com/api/post-registration', data, {
@@ -186,6 +187,8 @@ const Registration: React.FC<registerScreenProps> = () => {
             });
             setSuccessMessage('Form submitted successfully!');
             resetForm();
+            setFieldValue('file', null);
+            setFileUri(null); // Reset the fileUri state to clear the file display
           } catch (error: unknown) {
             const axiosError = error as AxiosError;
             console.error(
@@ -224,8 +227,9 @@ const Registration: React.FC<registerScreenProps> = () => {
                   paddingHorizontal: 10,
                 }}
                 selectedValue={values.category}
+                
                 onValueChange={itemValue =>
-                  setFieldValue('category', itemValue)
+                  setFieldValue('category', itemValue )
                 }>
                 <Picker.Item label="Select Category" value="" />
                 <Picker.Item label="RSP Life Member" value="RSP Life Member" />
@@ -373,6 +377,7 @@ const Registration: React.FC<registerScreenProps> = () => {
                 <Text style={{color: 'red'}}>{errors.address}</Text>
               )}
 
+
               {/* File Upload */}
               <TouchableOpacity
                 onPress={() => handleFileUpload(setFieldValue)}
@@ -387,7 +392,11 @@ const Registration: React.FC<registerScreenProps> = () => {
                 }}>
                 <Text>Select File</Text>
               </TouchableOpacity>
-              {fileUri && <Text>File selected: {fileUri}</Text>}
+              {fileUri && (
+                <Text style={{color: 'green', marginBottom: 10}}>
+                  File selected: {fileUri}
+                </Text>
+              )}
               {touched.file && errors.file && (
                 <Text style={{color: 'red'}}>{errors.file}</Text>
               )}

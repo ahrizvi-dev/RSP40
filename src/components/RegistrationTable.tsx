@@ -11,6 +11,7 @@ const RegistrationTable:React.FC<Props> = ({registrationTable}) => {
   return (
     <>
       <FlatList
+      nestedScrollEnabled
         keyExtractor={item => item.id.toString()}
         data={registrationTable}
         renderItem={({item}) => (

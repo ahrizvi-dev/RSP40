@@ -11,6 +11,7 @@ const RegistrationHeading:React.FC<Props> = ({registrationHeading}) => {
     <>
       {registrationHeading && (
         <FlatList
+        nestedScrollEnabled
           data={[registrationHeading]} // Wrap it in an array since it's an object
           keyExtractor={item => item.id.toString()}
           renderItem={({item}) => (
